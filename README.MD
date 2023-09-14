@@ -1,5 +1,7 @@
 # Nest Request IP
 
+Nest Request IP is a convenient Nest.js module that allows you to effortlessly retrieve information from HTTP requests, including client IP addresses, user agents, browsers, and operating systems. With this module, you can enhance your Nest.js application's functionality by gaining insights into the characteristics of incoming requests.
+
 ## Features
 
 - Get IP from HTTP requests

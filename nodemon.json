@@ -1,5 +1,0 @@
-{
-  "watch": ["src"],
-  "ext": "ts",
-  "exec": "npm run build && node -r @swc-node/register -r dotenv/config ./dist/shared/infrastructure/http/server.js"
-}
