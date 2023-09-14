@@ -29,7 +29,7 @@ import { ExecutionContext, createParamDecorator } from "@nestjs/common";
  * @returns ClientInfo object
  * @throws ModuleNotRegistered - If the `clientInfo` property is not available on the incoming HTTP request.
  */
-export const GetClientIp = (): ParameterDecorator => {
+export const GetClientInfo = (): ParameterDecorator => {
   return createParamDecorator(
     (data: unknown, ctx: ExecutionContext): ClientInfo => {
       const request = ctx.switchToHttp().getRequest<Request>();
@@ -37,6 +37,74 @@ export const GetClientIp = (): ParameterDecorator => {
       if (!request.clientInfo) throw new ModuleNotRegistered();
 
       return request.clientInfo;
+    },
+  )();
+};
+
+/**
+ * Returns a decorator that extracts the client IP address from the request object.
+ * @returns The client IP address.
+ * @throws `ModuleNotRegistered` if the `clientInfo` module is not registered in the request object.
+ */
+export const GetClientIp = (): ParameterDecorator => {
+  return createParamDecorator(
+    (data: unknown, ctx: ExecutionContext): string => {
+      const request = ctx.switchToHttp().getRequest<Request>();
+
+      if (!request.clientInfo) throw new ModuleNotRegistered();
+
+      return request.clientInfo.ip;
+    },
+  )();
+};
+
+/**
+ * Returns the operating system of the client making the request.
+ * @throws `ModuleNotRegistered` if `clientInfo` is not available in the request object.
+ * @returns The operating system of the client making the request.
+ */
+export const GetClientSystem = (): ParameterDecorator => {
+  return createParamDecorator(
+    (data: unknown, ctx: ExecutionContext): string => {
+      const request = ctx.switchToHttp().getRequest<Request>();
+
+      if (!request.clientInfo) throw new ModuleNotRegistered();
+
+      return request.clientInfo.os;
+    },
+  )();
+};
+
+/**
+ * Returns the browser name of the client making the request.
+ * @throws `ModuleNotRegistered` if `clientInfo` is not available in the request object.
+ * @returns The browser name of the client making the request.
+ */
+export const GetClientBrowser = (): ParameterDecorator => {
+  return createParamDecorator(
+    (data: unknown, ctx: ExecutionContext): string => {
+      const request = ctx.switchToHttp().getRequest<Request>();
+
+      if (!request.clientInfo) throw new ModuleNotRegistered();
+
+      return request.clientInfo.browser;
+    },
+  )();
+};
+
+/**
+ * Returns the user agent string of the client making the request.
+ * @throws `ModuleNotRegistered` if the `clientInfo` property is not available on the request object.
+ * @returns The user agent string of the client making the request.
+ */
+export const GetClientAgent = (): ParameterDecorator => {
+  return createParamDecorator(
+    (data: unknown, ctx: ExecutionContext): string => {
+      const request = ctx.switchToHttp().getRequest<Request>();
+
+      if (!request.clientInfo) throw new ModuleNotRegistered();
+
+      return request.clientInfo.agent;
     },
   )();
 };

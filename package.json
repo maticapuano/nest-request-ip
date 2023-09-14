@@ -5,6 +5,10 @@
   "repository": "git@github.com:maticapuano/nest-request-ip.git",
   "author": "Matias Capuano",
   "license": "MIT",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
   "private": false,
   "scripts": {
     "build": "npm run clean && tsc -p tsconfig.json",
