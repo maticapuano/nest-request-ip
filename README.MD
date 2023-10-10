@@ -6,6 +6,7 @@ Nest Request IP is a convenient Nest.js module that allows you to effortlessly r
 
 - Get IP from HTTP requests
 - Discover agent, browser, device, OS, etc.
+- Get `city`, `country`, `region`, `timezone` from IP
 
 ## Installation
 
