@@ -1,15 +1,26 @@
-import { ExternalIpService } from "@/services/external-ip.service";
+import { MODULE_OPTIONS } from "@/constants/module";
 import { ClientInfo } from "@/types/client-info";
+import { RequestIpModuleOptions } from "@/types/module";
 import { Request } from "@/types/request";
 import { isLocalAddress } from "@/utils/is-local-address";
-import { Injectable, NestMiddleware } from "@nestjs/common";
+import {
+  Inject,
+  Injectable,
+  NestMiddleware,
+  Optional,
+  Scope,
+} from "@nestjs/common";
 import { NextFunction, Response } from "express";
 import geoip from "geoip-lite";
 import { getClientIp } from "request-ip";
 import userAgent from "useragent";
 
-@Injectable()
+@Injectable({ scope: Scope.REQUEST })
 export class RequestIpMiddleware implements NestMiddleware {
+  public constructor(
+    @Optional() @Inject(MODULE_OPTIONS) private options: RequestIpModuleOptions,
+  ) {}
+
   public async use(
     req: Request,
     res: Response,
@@ -44,7 +55,9 @@ export class RequestIpMiddleware implements NestMiddleware {
   private async getClientIp(req: Request): Promise<string> {
     const clientIp = getClientIp(req) || "127.0.0.1";
 
-    if (isLocalAddress(clientIp)) return ExternalIpService.getRemoteIp();
+    if (isLocalAddress(clientIp) && this.options?.localIpAddress) {
+      return this.options.localIpAddress;
+    }
 
     return clientIp;
   }

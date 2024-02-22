@@ -25,7 +25,11 @@ import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
 
 @Module({
-  imports: [RequestIpModule],
+  imports: [
+    RequestIpModule.forRoot({
+      localIpAddress: "76.76.21.123", // this ip is used when the request is local
+    }),
+  ],
   controllers: [AppController],
 })
 export class AppModule {}
